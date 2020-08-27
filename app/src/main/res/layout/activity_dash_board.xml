@@ -14,11 +14,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="10dp">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
             <Button
-                android:layout_width="170dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Save Result as Image"
                 android:textSize="15dp"
@@ -27,21 +24,6 @@
                 android:textColor="#fff"
                 android:background="@drawable/buttonstylepink">
             </Button>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_width="170dp"
-                android:layout_height="match_parent"
-                android:text="Next Page ->"
-                android:textSize="15dp"
-                android:layout_marginHorizontal="15dp"
-                android:id="@+id/nextpage"
-                android:textColor="#fff"
-                android:background="@drawable/buttonstylepink">
-            </Button>
-        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -173,7 +155,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/Heading2"
-                        android:text="Bar Chart (External Attainment %)"
+                        android:text="Bar Chart (Subject Pass Count)"
                         android:textSize="20dp"
                         android:textAlignment="center"
                         android:gravity="center"
@@ -195,6 +177,23 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/Heading5"
+                        android:text="External Analysis"
+                        android:textSize="20dp"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:textColor="@color/dashcolor"
+                        android:fontFamily="sans-serif-black"
+                        >
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginLeft="5dp"
@@ -203,6 +202,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
                         android:id="@+id/webview1">
+                    </WebView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/Heading3"
+                        android:text="Internal Analysis"
+                        android:textSize="20dp"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:textColor="@color/dashcolor"
+                        android:fontFamily="sans-serif-black"
+                        >
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="10dp">
+                    <WebView
+                        android:layout_width="match_parent"
+                        android:layout_height="280dp"
+                        android:id="@+id/webview2">
                     </WebView>
                 </LinearLayout>
 

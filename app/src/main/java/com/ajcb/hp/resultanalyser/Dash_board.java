@@ -1,21 +1,13 @@
 package com.ajcb.hp.resultanalyser;
 
-import androidx.annotation.RequiresApi;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 
 
 import com.ezydev.bigscreenshot.BigScreenshot;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-
-
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -23,8 +15,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -85,10 +75,11 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
 
     TextView Totalstudents,pass1,distinction,firstclass,fail1;
     Button generatepdf,nextpage;
-    WebView webView1;
+    WebView webView1,webView2;
 
 
     int Distinction = 0,First_Class = 0,Pass_ = 0,Fail_ = 0,totalstudents = 0;
+    int pass = 0,fail = 0;
     ArrayList<BarEntry> Subjectattper = new ArrayList<>();
 
 
@@ -100,10 +91,19 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
                     "    <th>Subject<br>Code</th>\n" +
                     "    <th>Above<br>Attainment</th>\n" +
                     "    <th>Below<br>Attainment</th>\n" +
+                    "    <th>Attainment<br>Level</th>\n" +
                     "  </tr>\n";
 
 
     BigScreenshot longScreenshot;
+
+    public  String summary1 =
+            "  <tr>\n" +
+                    "    <th>Subject<br>Code</th>\n" +
+                    "    <th>Above<br>Attainment</th>\n" +
+                    "    <th>Below<br>Attainment</th>\n" +
+                    "    <th>Attainment<br>Level</th>\n" +
+                    "  </tr>\n";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +113,7 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
         parentlinearlayout = findViewById(R.id.parentlinearlayout);
         scrollView = (ScrollView)findViewById(R.id.scroll);
         webView1 = (WebView)findViewById(R.id.webview1);
+        webView2 = (WebView)findViewById(R.id.webview2);
 
 
 
@@ -121,7 +122,7 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
 
         pass1 = (TextView)findViewById(R.id.pass);
         generatepdf = (Button)findViewById(R.id.savepdf);
-        nextpage = (Button)findViewById(R.id.nextpage);
+        //nextpage = (Button)findViewById(R.id.nextpage);
 
 
         fail1 = (TextView)findViewById(R.id.fail);
@@ -144,12 +145,13 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
 
 
         PieChart pieChart = findViewById(R.id.pie);
-        for(int i = 4 ; i < 11; i++){
+        for(int i = 4 ; i < 8; i++){
             subjects.add(ArrOfArr.get(0).get(i));
         }
 
         ResultCalculation();
         SubjectAttainmentCalculation();
+        InternalAttainmentCalculation();
 
 
         ArrayList<PieEntry> visitors = new ArrayList<>();
@@ -218,15 +220,15 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
                     @Override
                     public void run() {
                         longScreenshot.stopScreenshot();
-                        Intent intent = new Intent(Dash_board.this,Dash_board2.class);
+                        /*Intent intent = new Intent(Dash_board.this,Dash_board2.class);
                         intent.putExtra("Flag",1);
-                        startActivity(intent);
+                        startActivity(intent);*/
                     }
-                }, 1200);
+                }, 2700);
 
             }
         });
-        nextpage.setOnClickListener(new View.OnClickListener() {
+        /*nextpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -235,26 +237,22 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
                 startActivity(intent);
 
             }
-        });
+        });*/
         String top="<center><table border = 1>";
         String bottom="</table></center>";
         webView1.loadData(top+summary+bottom, "text/html", null);
+        webView2.loadData(top+summary1+bottom,"text/html",null);
 
     }
     public void ResultCalculation(){
-        Double total,internal;
-        int pass = 0,fail = 0;
+
+
+
 
         for (int i = 1; i < ArrOfArr.size(); i++) {
             //printlnToUser(ArrOfArr.get(i).get(pos+4));
-//            total= Double.parseDouble(ArrOfArr.get(i).get(pos+4).replaceAll(" ",""));
-//            internal=Double.parseDouble(ArrOfArr.get(i).get(pos+13).replaceAll(" ",""));
-//            if (internal+total>=45 && total>=35){
-//                pass++;
-//            }
-//            else {
-//                fail++;
-//            }
+
+
             if(ArrOfArr.get(i).get(22).equals("Distinction")){Distinction++;}
             if(ArrOfArr.get(i).get(22).equals("First Class")){First_Class++;}
             if(ArrOfArr.get(i).get(22).equals("Pass")){Pass_++;}
@@ -272,6 +270,30 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
         int Subjectattainment;
         float attperr;
         float z = 0f;
+        int Attainment;
+
+
+        Double total,internal;
+
+
+        for (int j = 4; j < 8; j++) {
+            pass = 0;
+            for (int i = 1; i < ArrOfArr.size(); i++) {
+                total = Double.parseDouble(ArrOfArr.get(i).get(j).replaceAll(" ", ""));
+                internal = Double.parseDouble(ArrOfArr.get(i).get(j+8).replaceAll(" ", ""));
+                if (internal+total>=45 && total>=35){
+                    pass++;
+                }
+                else {
+                    fail++;
+                }
+            }
+            Subjectattper.add(new BarEntry(z,pass));
+            z++;
+        }
+
+
+
         for (int j = 4; j<8/*11*/; j++){
             Subjectattainment = 0;
             for(int i = 1; i < ArrOfArr.size(); i++){
@@ -279,15 +301,23 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
                     Subjectattainment++;
                 }
             }
+            attperr = ((float)Subjectattainment/(float)totalstudents)*100;
+            if ( attperr  > 70 ){ Attainment = 3;}
+            else if ( attperr<= 70  && attperr  >60){ Attainment = 2;}
+            else if ( attperr <= 60 && attperr  >50){ Attainment = 1;}
+            else{ Attainment = 0; }  /* That is  Attainment Percentage is less than zero */
+
+
 
             String data="<tr>\n"+"<td style=text-align:center>"+ArrOfArr.get(0).get(j)+"</td>\n" +
                     "<td style=text-align:center>"+Subjectattainment+"</td>\n" +
                     "<td style=text-align:center>"+(totalstudents-Subjectattainment)+"</td>\n" +
+                    "<td style=text-align:center>"+Attainment+"</td>\n" +
                     "</tr>";
             summary+=data;
-            attperr = ((float)Subjectattainment/(float)totalstudents)*100;
-            Subjectattper.add(new BarEntry(z,attperr));
-            z++;
+
+//            Subjectattper.add(new BarEntry(z,attperr));
+//            z++;
         }
         for (int j = 8; j<11; j++){
             Subjectattainment = 0;
@@ -296,20 +326,50 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
                     Subjectattainment++;
                 }
             }
+
+            attperr = ((float)Subjectattainment/(float)totalstudents)*100;
+            if ( attperr  > 70 ){ Attainment = 3;}
+            else if ( attperr<= 70  && attperr  >60){ Attainment = 2;}
+            else if ( attperr <= 60 && attperr  >50){ Attainment = 1;}
+            else{ Attainment = 0; }
             String data="<tr>\n"+"<td style=text-align:center>"+ArrOfArr.get(0).get(j)+"</td>\n" +
                     " <td style=text-align:center>"+Subjectattainment+"</td>\n" +
                     "    <td style=text-align:center>"+String.valueOf(totalstudents-Subjectattainment)+"</td>\n" +
+                    "<td style=text-align:center>"+Attainment+"</td>\n" +
                     "  </tr>";
             summary+=data;
 
-            attperr = ((float)Subjectattainment/(float)totalstudents)*100;
-            Subjectattper.add(new BarEntry(z,attperr));
-            z++;
+
+//            Subjectattper.add(new BarEntry(z,attperr));
+//            z++;
         }
     }
 
 
-
+    public void InternalAttainmentCalculation(){
+        int Internalattainment;
+        float attperr;
+        int Attainment;
+        for (int j = 12; j<19; j++){
+            Internalattainment = 0;
+            for(int i = 1; i < ArrOfArr.size(); i++){
+                if(Integer.parseInt(ArrOfArr.get(i).get(j).replaceAll(" ",""))>=12.5){
+                    Internalattainment++;
+                }
+            }
+            attperr = ((float)Internalattainment/(float)totalstudents)*100;
+            if ( attperr  > 70 ){ Attainment = 3;}
+            else if ( attperr<= 70  && attperr  >60){ Attainment = 2;}
+            else if ( attperr <= 60 && attperr  >50){ Attainment = 1;}
+            else{ Attainment = 0; }
+            String data="<tr>\n"+"<td style=text-align:center>"+ArrOfArr.get(0).get(j)+"</td>\n" +
+                    "<td style=text-align:center>"+Internalattainment+"</td>\n" +
+                    "<td style=text-align:center>"+(totalstudents-Internalattainment)+"</td>\n" +
+                    "<td style=text-align:center>"+Attainment+"</td>\n" +
+                    "</tr>";
+            summary1+=data;
+        }
+    }
 
 
     /*private void printlnToUser(String str) {
@@ -326,6 +386,7 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
     @Override
     public void getScreenshot(Bitmap bitmap) {
         storeImage(bitmap);
+        Toast.makeText(Dash_board.this,"Result stored as image in Internal/Result Analyser/",Toast.LENGTH_LONG).show();
 
     }
     private void storeImage(Bitmap image) {

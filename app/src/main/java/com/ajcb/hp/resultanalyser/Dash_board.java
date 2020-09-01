@@ -91,7 +91,7 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
                     "    <th>Subject<br>Code</th>\n" +
                     "    <th>Above<br>Attainment</th>\n" +
                     "    <th>Below<br>Attainment</th>\n" +
-                    "    <th>Attainment<br>Level</th>\n" +
+                    "    <th>Attainment<br>Percent</th>\n" +
                     "  </tr>\n";
 
 
@@ -102,7 +102,7 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
                     "    <th>Subject<br>Code</th>\n" +
                     "    <th>Above<br>Attainment</th>\n" +
                     "    <th>Below<br>Attainment</th>\n" +
-                    "    <th>Attainment<br>Level</th>\n" +
+                    "    <th>Attainment<br>Percent</th>\n" +
                     "  </tr>\n";
 
     @Override
@@ -312,7 +312,7 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
             String data="<tr>\n"+"<td style=text-align:center>"+ArrOfArr.get(0).get(j)+"</td>\n" +
                     "<td style=text-align:center>"+Subjectattainment+"</td>\n" +
                     "<td style=text-align:center>"+(totalstudents-Subjectattainment)+"</td>\n" +
-                    "<td style=text-align:center>"+Attainment+"</td>\n" +
+                    "<td style=text-align:center>"+(int)attperr+"</td>\n" +
                     "</tr>";
             summary+=data;
 
@@ -335,7 +335,7 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
             String data="<tr>\n"+"<td style=text-align:center>"+ArrOfArr.get(0).get(j)+"</td>\n" +
                     " <td style=text-align:center>"+Subjectattainment+"</td>\n" +
                     "    <td style=text-align:center>"+String.valueOf(totalstudents-Subjectattainment)+"</td>\n" +
-                    "<td style=text-align:center>"+Attainment+"</td>\n" +
+                    "<td style=text-align:center>"+(int)attperr+"</td>\n" +
                     "  </tr>";
             summary+=data;
 
@@ -365,7 +365,7 @@ public class Dash_board extends AppCompatActivity implements BigScreenshot.Proce
             String data="<tr>\n"+"<td style=text-align:center>"+ArrOfArr.get(0).get(j)+"</td>\n" +
                     "<td style=text-align:center>"+Internalattainment+"</td>\n" +
                     "<td style=text-align:center>"+(totalstudents-Internalattainment)+"</td>\n" +
-                    "<td style=text-align:center>"+Attainment+"</td>\n" +
+                    "<td style=text-align:center>"+(int)attperr+"</td>\n" +
                     "</tr>";
             summary1+=data;
         }
